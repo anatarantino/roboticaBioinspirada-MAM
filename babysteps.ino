@@ -67,50 +67,11 @@ void setup() {
 
 void loop() {
 
-  //leds
-  // check to see if it's time to change the state of the LED
   unsigned long currentMillis = millis();
- 
-  // if((ledState1 == HIGH) && (currentMillis - previousMillis1 >= OnTime1))
-  // {
-  //   ledState1 = LOW;  // Turn it off
-  //   previousMillis1 = currentMillis;  // Remember the time
-  //   digitalWrite(ledRed1, ledState1);  // Update the actual LED
-  // }
-  // else if ((ledState1 == LOW) && (currentMillis - previousMillis1 >= OffTime1))
-  // {
-  //   ledState1 = HIGH;  // turn it on
-  //   previousMillis1 = currentMillis;   // Remember the time
-  //   digitalWrite(ledRed1, ledState1);	  // Update the actual LED
-  // }
-  
-  // if((ledState2 == HIGH) && (currentMillis - previousMillis2 >= OnTime2))
-  // {
-  //   ledState2 = LOW;  // Turn it off
-  //   previousMillis2 = currentMillis;  // Remember the time
-  //   digitalWrite(ledYellow2, ledState2);  // Update the actual LED
-  // }
-  // else if ((ledState2 == LOW) && (currentMillis - previousMillis2 >= OffTime2))
-  // {
-  //   ledState2 = HIGH;  // turn it on
-  //   previousMillis2 = currentMillis;   // Remember the time
-  //   digitalWrite(ledYellow2, ledState2);	  // Update the actual LED
-  // }
 
-  // if((ledState3 == HIGH) && (currentMillis - previousMillis3 >= OnTime3))
-  // {
-  //   ledState3 = LOW;  // Turn it off
-  //   previousMillis3 = currentMillis;  // Remember the time
-  //   digitalWrite(ledGreen3, ledState3);  // Update the actual LED
-  // }
-  // else if ((ledState3 == LOW) && (currentMillis - previousMillis3 >= OffTime3))
-  // {
-  //   ledState3 = HIGH;  // turn it on
-  //   previousMillis3 = currentMillis;   // Remember the time
-  //   digitalWrite(ledGreen3, ledState3);	  // Update the actual LED
-  // }
-
-
+  int analogValue = analogRead(A1);
+  Serial.print("Analog reading: ");
+  Serial.print(analogValue);   
   //motor
   int d = sensor();
 
@@ -119,7 +80,7 @@ void loop() {
   analogWrite(enA, 100);
 	analogWrite(enB, 100);
 
-  if(d < 40){
+  if(d < 40 || analogValue < 400){
     digitalWrite(ledRed1, LOW);	  // Update the actual LED
     digitalWrite(ledGreen3, HIGH);
 
@@ -138,9 +99,6 @@ void loop() {
 	  digitalWrite(in4, LOW);
   }
 }
-
-
-
 
 
 void slowDown(){
@@ -163,9 +121,9 @@ int sensor(){
   t = pulseIn(Echo, HIGH); //obtenemos el ancho del pulso
   d = t/59;             //escalamos el tiempo a una distancia en cm
   
-  Serial.print("Distancia: ");
-  Serial.print(d);      //Enviamos serialmente el valor de la distancia
-  Serial.print("cm");
+  // // Serial.print("Distancia: ");
+  // Serial.print(d);      //Enviamos serialmente el valor de la distancia
+  // Serial.print("cm");
   Serial.println();
 
   return d;
